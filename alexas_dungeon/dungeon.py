@@ -11,7 +11,6 @@ class Dungeon(object):
 		# deserialized serialized object
 		if serialized is not None:  # dungeon has already been created
 			self.deserialize(serialized)
-			self.serialized = serialized
 
 		else:  # no dungeon has been created
 			self.generateFloor(1)  # this should go last
@@ -24,6 +23,7 @@ class Dungeon(object):
 
 	def serialize(self):
 		self.serialized["numFloors"] = self.numFloors
+
 		# serializes floors
 		self.serialized["floors"] = []
 		for floor in self.floors:
@@ -33,8 +33,10 @@ class Dungeon(object):
 
 	def deserialize(self, serialized):
 		self.numFloors = serialized["numFloors"]
+
+		# deserializes floors
 		for floor in serialized["floors"]:
-			self.floors.append[Floor(floor)]
+			self.floors.append(Floor(serialized=floor))
 	
 
 
@@ -65,8 +67,9 @@ class Floor(object):
 
 	def serialize(self):
 		self.serialized["floorNum"] = self.floorNum
-		rooms = []
+		
 		# serializes rooms
+		rooms = []
 		for row in self.rooms:
 			line = []
 			for room in row:
@@ -77,12 +80,14 @@ class Floor(object):
 
 
 	def deserialize(self, serialized):
-		self.rooms = []
 		self.floorNum = serialized["floorNum"]
+		
+		# deserializes rooms
+		self.rooms = []
 		for row in serialized["rooms"]:
 			line = []
 			for room in row:
-				line.append(Room(room))
+				line.append(Room(serialized=room))
 			self.rooms.append(line)
 
 
