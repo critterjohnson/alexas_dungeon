@@ -1,4 +1,5 @@
 from dungeon import *
+from state import *
 
 # testing object
 dungeon = Dungeon(numFloors=5)

@@ -28,6 +28,7 @@ class Dungeon(object):
 		self.serialized["floors"] = []
 		for floor in self.floors:
 			self.serialized["floors"].append(floor.serialize())
+
 		return self.serialized
 
 
@@ -76,6 +77,7 @@ class Floor(object):
 				line.append(room.serialize())
 			rooms.append(line)
 		self.serialized["rooms"] = rooms
+
 		return self.serialized
 
 
@@ -109,7 +111,8 @@ class Room(object):
 
 	def serialize(self):
 		self.serialized["typ"] = self.typ
-		self.serialized["enemies"] = self.enemies  # this will have to change later
+		self.serialized["enemies"] = self.enemies  # this will have to change
+		
 		return self.serialized
 	
 
