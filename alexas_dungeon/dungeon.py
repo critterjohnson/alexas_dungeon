@@ -1,4 +1,6 @@
 # dungeon.py - contains room and dungeon classes
+import constants
+import random
 
 class Dungeon(object):
 	def __init__(self,
@@ -13,7 +15,7 @@ class Dungeon(object):
 			self.deserialize(serialized)
 
 		else:  # no dungeon has been created
-			self.generateFloor(1)  # this should go last
+			self.generateFloor(0)  # this should go last
 
 
 	def generateFloor(self, floorNum):
@@ -42,6 +44,7 @@ class Dungeon(object):
 
 
 class Floor(object):
+	# --- Constructor ---
 	def __init__(self, floorNum=1, serialized=None):
 		self.floorNum = floorNum
 		self.rooms = []
@@ -54,16 +57,52 @@ class Floor(object):
 			self.generate(self.floorNum)
 
 
+	# --- Methods ---
 	def generate(self, floorNum):
-		# creates a basic, 3 room floor - change this later
-		self.rooms = [
-					  [
-					  	Room(typ=1,
-					  		 enemies=0,),
-					  	Room(typ=2,
-					  		 enemies=0,)
-					  ]
-					 ]
+		# creates a room "randomly" based off of constant values
+		gen_code = constants.floors[floorNum]
+		# generate rooms regardless of dependencies
+		for row in gen_code:
+			line = []
+			for room in row:
+				if room is None:
+					line.append(None)
+
+				else:
+					rand = random.randrange(0, 100)
+					if rand <= room["chanceExists"]:
+						curRoom = Room(
+									typ=room["type"],
+									enemies=room["enemyWeight"])
+						line.append(curRoom)
+
+					else:
+						line.append(None)
+			self.rooms.append(line)
+		# delete rooms that are missing their dependencies
+		# everything is (y, x)
+		for row in range(len(gen_code)):
+			for col in range(len(gen_code[row])):
+				curRoom = self.rooms[row][col]
+				if curRoom is None:
+					break
+
+				if gen_code[row][col]["dependencies"] is not None:
+					dependencies = gen_code[row][col]["dependencies"]
+					print(gen_code[row][col])
+					print(dependencies)
+					for dependency in dependencies:
+						if self.rooms[dependency[0]][dependency[1]] is None:
+							self.rooms[row][col] = None
+
+
+	def __repr__(self):
+		string = ""
+		for row in self.rooms:
+			for room in row:
+				string += str(room) + " | "
+			string += "\n"
+		return string
 
 
 	def serialize(self):
@@ -74,7 +113,10 @@ class Floor(object):
 		for row in self.rooms:
 			line = []
 			for room in row:
-				line.append(room.serialize())
+				if room is not None:
+					line.append(room.serialize())
+				else:
+					line.append(None)
 			rooms.append(line)
 		self.serialized["rooms"] = rooms
 
@@ -95,6 +137,7 @@ class Floor(object):
 
 
 class Room(object):
+	# --- Constructor ---
 	def __init__(self,
 				 serialized=None,
 				 typ=None,
@@ -109,10 +152,18 @@ class Room(object):
 			self.deserialize(serialized)
 
 
+	# --- Methods ---
+	def __repr__(self):
+		string = ""
+		string += "type: " + str(self.typ) + " "
+		string += "enemies: " + str(self.enemies)
+		return string
+
+
 	def serialize(self):
 		self.serialized["typ"] = self.typ
 		self.serialized["enemies"] = self.enemies  # this will have to change
-		
+
 		return self.serialized
 	
 
