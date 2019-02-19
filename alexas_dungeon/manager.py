@@ -9,10 +9,19 @@ def lambda_handler(event, context):
 
 	@at.handler("LaunchRequest")
 	def launch(request):
+		response = AlexaResponse()
+		response.text = "Welcome to Rogue Walker."
+		response.should_end_session = False
+		return response
+
+	@at.handler("NewGame")
+	def new_game(request):
 		dung = Dungeon(numFloors=1)
 		response = AlexaResponse()
 		response.session_attributes = {"dungeon": dung.serialize()}
+		response.text = "New game created."
 		return response
+
 
 	return at.run()
 
@@ -67,7 +76,10 @@ if __name__ == "__main__":
 			}
 		},
 		"request": {
-			"type": "LaunchRequest",
+			"type": "IntentRequest",
+			"intent": {
+				"name": "NewGame",
+			},
 			"requestId": "amzn1.echo-api.request.01dfbcad-bd41-48e8-9b29-3a483cfdbb78",
 			"timestamp": "2019-02-18T06:09:51Z",
 			"locale": "en-US",
