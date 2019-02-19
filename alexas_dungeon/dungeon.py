@@ -2,6 +2,7 @@
 import constants
 import random
 
+
 class Dungeon(object):
 	def __init__(self,
 	 			 numFloors=1, 
@@ -58,8 +59,8 @@ class Floor(object):
 
 
 	# --- Methods ---
+	# creates a room "randomly" based off of constant values
 	def generate(self, floorNum):
-		# creates a room "randomly" based off of constant values
 		gen_code = constants.floors[floorNum]
 		# generate rooms regardless of dependencies
 		for row in gen_code:
@@ -87,8 +88,8 @@ class Floor(object):
 				if curRoom is None:
 					break
 
-				if gen_code[row][col]["dependencies"] is not None:
-					dependencies = gen_code[row][col]["dependencies"]
+				dependencies = gen_code[row][col]["dependencies"]
+				if dependencies is not None:
 					print(gen_code[row][col])
 					print(dependencies)
 					for dependency in dependencies:
