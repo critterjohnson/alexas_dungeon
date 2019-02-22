@@ -24,6 +24,20 @@ class Dungeon(object):
 		self.floors.append(floor)
 
 
+	# checks that a room exists
+	def room_exists(self, floor, row, col):
+		# negative indecies mean the room doesn't exist
+		if row < 0 or col < 0:
+			return False
+		try:
+			if self.floors[floor].rooms[row][col] is not None:
+				return True
+			else:
+				return False
+		except IndexError:
+			return False
+
+
 	def serialize(self):
 		self.serialized["numFloors"] = self.numFloors
 
@@ -50,6 +64,7 @@ class Floor(object):
 		self.floorNum = floorNum
 		self.rooms = []
 		self.serialized = {}
+		self.entry = None
 
 		if serialized is not None:
 			self.deserialize(serialized)
@@ -95,6 +110,9 @@ class Floor(object):
 					for dependency in dependencies:
 						if self.rooms[dependency[0]][dependency[1]] is None:
 							self.rooms[row][col] = None
+				# adds this room as the floor's entry point
+				if curRoom.typ == 2:
+					self.entry = [row, col]
 
 
 	def __repr__(self):
@@ -108,6 +126,7 @@ class Floor(object):
 
 	def serialize(self):
 		self.serialized["floorNum"] = self.floorNum
+		self.serialized["entry"] = self.entry
 		
 		# serializes rooms
 		rooms = []
@@ -126,6 +145,7 @@ class Floor(object):
 
 	def deserialize(self, serialized):
 		self.floorNum = serialized["floorNum"]
+		self.entry = serialized["entry"]
 		
 		# deserializes rooms
 		self.rooms = []

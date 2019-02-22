@@ -1,3 +1,8 @@
+"""
+--- Room Types ---
+2 = Entrance
+"""
+
 floors = [
 	[
 		[None, {"type": 1, "chanceExists": 50, "dependencies": [(1, 1)], "enemyWeight": 2}],
