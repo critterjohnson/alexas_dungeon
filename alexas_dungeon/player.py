@@ -9,17 +9,17 @@ class Player(object):
 		self.row = row
 		self.col = col
 		self.orient = orient
-		self.serialized = {}
 
 		if serialized is not None:
 			self.deserialize(serialized)
 
 
 	def serialize(self):
-		self.serialized["row"] = self.row
-		self.serialized["col"] = self.col
-		self.serialized["orient"] = self.orient
-		return self.serialized
+		serialized = {}
+		serialized["row"] = self.row
+		serialized["col"] = self.col
+		serialized["orient"] = self.orient
+		return serialized
 
 	def deserialize(self, serialized):
 		self.row = serialized["row"]

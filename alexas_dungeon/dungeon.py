@@ -7,7 +7,6 @@ class Dungeon(object):
 	def __init__(self,
 	 			 numFloors=1, 
 	 			 serialized=None,):
-		self.serialized = {}
 		self.numFloors = numFloors
 		self.floors = []
 
@@ -39,14 +38,15 @@ class Dungeon(object):
 
 
 	def serialize(self):
-		self.serialized["numFloors"] = self.numFloors
+		serialized = {}
+		serialized["numFloors"] = self.numFloors
 
 		# serializes floors
-		self.serialized["floors"] = []
+		serialized["floors"] = []
 		for floor in self.floors:
-			self.serialized["floors"].append(floor.serialize())
+			serialized["floors"].append(floor.serialize())
 
-		return self.serialized
+		return serialized
 
 
 	def deserialize(self, serialized):
@@ -63,7 +63,6 @@ class Floor(object):
 	def __init__(self, floorNum=1, serialized=None):
 		self.floorNum = floorNum
 		self.rooms = []
-		self.serialized = {}
 		self.entry = None
 
 		if serialized is not None:
@@ -125,8 +124,9 @@ class Floor(object):
 
 
 	def serialize(self):
-		self.serialized["floorNum"] = self.floorNum
-		self.serialized["entry"] = self.entry
+		serialized = {}
+		serialized["floorNum"] = self.floorNum
+		serialized["entry"] = self.entry
 		
 		# serializes rooms
 		rooms = []
@@ -138,9 +138,9 @@ class Floor(object):
 				else:
 					line.append(None)
 			rooms.append(line)
-		self.serialized["rooms"] = rooms
+		serialized["rooms"] = rooms
 
-		return self.serialized
+		return serialized
 
 
 	def deserialize(self, serialized):
@@ -167,7 +167,6 @@ class Room(object):
 				 ):
 		self.typ = typ
 		self.enemies = enemies  # change this later
-		self.serialized = {}
 
 		# deserialized serialized object
 		if serialized is not None:
@@ -183,10 +182,11 @@ class Room(object):
 
 
 	def serialize(self):
-		self.serialized["typ"] = self.typ
-		self.serialized["enemies"] = self.enemies  # this will have to change
+		serialized = {}
+		serialized["typ"] = self.typ
+		serialized["enemies"] = self.enemies  # this will have to change
 
-		return self.serialized
+		return serialized
 	
 
 	def deserialize(self, serialized):

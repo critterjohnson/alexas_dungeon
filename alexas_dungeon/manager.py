@@ -2,6 +2,7 @@ from dungeon import *
 from state import *
 from alexatools import *
 from player import *
+from item import *
 import constants
 
 
@@ -19,8 +20,8 @@ def lambda_handler(event, context):
 
 	@at.handler("NewGame")
 	def new_game(request):
-		dung = Dungeon(numFloors=1)
 		response = AlexaResponse()
+		dung = Dungeon(numFloors=1)
 		player = Player(dung.floors[0].entry[0], dung.floors[0].entry[1])
 		response.session_attributes = {"state": "moving",
 									   "dungeon": dung.serialize(),
