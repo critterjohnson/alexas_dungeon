@@ -154,6 +154,8 @@ class Floor(object):
 			for room in row:
 				if room is not None:
 					line.append(Room(serialized=room))
+				else:
+					line.append(None)
 			self.rooms.append(line)
 
 

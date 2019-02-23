@@ -48,7 +48,7 @@ event = {
 				"col": 1,
 				"orient": "right"
 			},
-			"curFloor": 0,
+			"cur_floor": 0,
 			"state": "moving"
 		},
 		"user": {
