@@ -59,7 +59,16 @@ class AlexaRequest:
 
 	@property
 	def attributes(self):
-		return self.event["session"]["attributes"]
+		try:
+			return self.event["session"]["attributes"]
+		except KeyError:
+			return None
+
+	# allows usage of either "attributes" or "session_attributes"
+	@property
+	def session_attributes(self):
+		return self.attributes
+	
 
 	@property
 	def user_id(self):

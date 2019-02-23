@@ -22,7 +22,8 @@ def lambda_handler(event, context):
 		dung = Dungeon(numFloors=1)
 		response = AlexaResponse()
 		player = Player(dung.floors[0].entry[0], dung.floors[0].entry[1])
-		response.session_attributes = {"dungeon": dung.serialize(),
+		response.session_attributes = {"state": "moving",
+									   "dungeon": dung.serialize(),
 									   "player": player.serialize(),
 									   "curFloor": 0}
 		response.text = "New game created."
@@ -33,12 +34,33 @@ def lambda_handler(event, context):
 	@at.handler("MoveRooms")
 	def move_player(request):
 		response = AlexaResponse()
-		if not request.has_value("dir"):
-			response.text = "Invalid direction."
+		# ensures the player has created a new game
+		if request.attributes is None:
+			response.text = "You must create a new game first."
+			return response
+
+		# gets attributes
+		state = request.attributes["state"]
 		dung = Dungeon(serialized=request.attributes["dungeon"])
 		player = Player(serialized=request.attributes["player"])
 		curFloor = request.attributes["curFloor"]
 		direction = request.slot_value("dir")
+
+		# sets response attributes to request attributes
+		response.session_attributes = {"state": state,
+									   "dungeon": dung.serialize(),
+									   "player": player.serialize(),
+									   "curFloor": curFloor}
+
+		# ensures the player is currently capable of moving
+		if not request.attributes["state"] == "moving":
+			response.text = "You cannot do that right now."
+			return response
+
+		# ensures the player has given a value to slot 'dir'
+		if not request.has_value("dir"):
+			response.text = "Invalid direction."
+			return response
 
 		# MOVE
 		orient = player.orient
@@ -99,10 +121,12 @@ def lambda_handler(event, context):
 				player.orient = "up"
 		else:
 			response.text = "No room in that location."
-		response.session_attributes = {"dungeon": dung.serialize(),
+		response.session_attributes = {"state": state,
+									   "dungeon": dung.serialize(),
 									   "player": player.serialize(),
 									   "curFloor": curFloor}
 		response.should_end_session = False
 		return response
+
 
 	return at.run()
