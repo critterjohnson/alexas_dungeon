@@ -44,8 +44,6 @@ def lambda_handler(event, context):
 			return response
 
 		game = Game(serialized=request.attributes)
-		
-		# move
 		response.text = game.move_rooms(direction=request.slot_value("dir"))
 
 		response.session_attributes = game.serialize()

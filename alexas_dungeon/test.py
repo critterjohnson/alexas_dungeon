@@ -96,7 +96,7 @@ event = {
 		"timestamp": "2019-02-22T04:17:52Z",
 		"locale": "en-US",
 		"intent": {
-			"name": "MoveRooms",
+			"name": "NewGame",
 			"confirmationStatus": "NONE",
 			"slots": {
 				"dir": {
