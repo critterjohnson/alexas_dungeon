@@ -16,6 +16,12 @@ class Player(object):
 		if serialized is not None:
 			self.deserialize(serialized)
 
+		else:
+			# TODO - replace this with a constant value
+			self.inventory.weapons.append(
+				Item(name="Starter Sword",
+					 stack_limit=1))
+
 
 	def serialize(self):
 		serialized = {}

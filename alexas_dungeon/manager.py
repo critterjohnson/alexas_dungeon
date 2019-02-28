@@ -1,12 +1,7 @@
 # manager.py - methods to handle requests and responses
 from alexatools import *
 from game import *
-# remove these after Game is fully implemented
-from dungeon import *
-from state import *
-from player import *
-from item import *
-import constants
+
 
 def lambda_handler(event, context):
 	at = AlexaTools(event, context)
@@ -48,6 +43,24 @@ def lambda_handler(event, context):
 
 		response.session_attributes = game.serialize()
 		response.should_end_session = False
+		return response
+
+
+	@at.handler("ViewInventory")
+	def view_inventory(request):
+		text = ""
+		# loops through the inventory types
+		for key, val in request.attributes["player"]["inventory"].items():
+			if not isinstance(val, int):
+				for i in range(len(val)):
+					if val[i] is not None:
+						text += "{type} slot {number} contains {item}. ".format(
+							type = key,
+							number = i,
+							item = val[i]["name"])
+		response = AlexaResponse()
+		response.text = text
+		response.session_attributes = request.attributes
 		return response
 
 

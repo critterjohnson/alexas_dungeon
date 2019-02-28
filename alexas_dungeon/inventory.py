@@ -1,4 +1,5 @@
 # inventory.py - inventory class
+from item import *
 
 class Inventory(object):
 	def __init__(self, serialized=None):

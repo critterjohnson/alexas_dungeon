@@ -46,7 +46,30 @@ event = {
 			"player": {
 				"row": 1,
 				"col": 1,
-				"orient": "right"
+				"orient": "right",
+				'inventory': {
+					'weapons': [
+						None, None, {
+							'name': 'Starter Sword', 
+							'stack_limit': 1
+							}
+						], 
+					'max_weapons': 2, 
+					'spells': [None, None], 
+					'max_spells': 2, 
+					'armor': [
+						None, None, None
+						], 
+					'max_armor': 3, 
+					'ammo': [
+						None, None, None, None
+						], 
+					'max_ammo': 4, 
+					'passive': [
+						None, None
+						], 
+					'max_passive': 2
+					}
 			},
 			"cur_floor": 0,
 			"state": "moving"
@@ -91,7 +114,7 @@ event = {
 		}
 	},
 	"request": {
-		"type": "IntentRequest",
+		"type": "ViewInventory",
 		"requestId": "amzn1.echo-api.request.abc3c835-09d9-4a3c-8a7c-712100d6194a",
 		"timestamp": "2019-02-22T04:17:52Z",
 		"locale": "en-US",
