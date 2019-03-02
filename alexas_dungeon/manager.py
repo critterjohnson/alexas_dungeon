@@ -61,6 +61,19 @@ def lambda_handler(event, context):
 		response = AlexaResponse()
 		response.text = text
 		response.session_attributes = request.attributes
+		response.should_end_session = False
+		return response
+
+
+	@at.handler("OpenChest")
+	def open_chest(request):
+		text = ""
+		game = Game(serialized=request.attributes)
+		text = game.open_chest()
+		response = AlexaResponse()
+		response.text = text
+		response.session_attributes = game.serialize()
+		response.should_end_session = False
 		return response
 
 

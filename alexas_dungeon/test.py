@@ -10,70 +10,68 @@ event = {
 		},
 		"attributes": {
 			"dungeon": {
-				"numFloors": 1,
-				"floors": [
-					{
-						"floorNum": 0,
-						"entry": [
-							1,
-							0
-						],
-						"rooms": [
-							[
-								{
-									"typ": None,
-									"enemies": None
-								},
-								{
-									"typ": 1,
-									"enemies": 2
-								}
-							],
-							[
-								{
-									"typ": 2,
-									"enemies": 0
-								},
-								{
-									"typ": 1,
-									"enemies": 0
-								}
-							]
-						]
-					}
-				]
-			},
-			"player": {
-				"row": 1,
-				"col": 1,
-				"orient": "right",
-				'inventory': {
-					'weapons': [
-						None, None, {
-							'name': 'Starter Sword', 
-							'stack_limit': 1
-							}
-						], 
-					'max_weapons': 2, 
-					'spells': [None, None], 
-					'max_spells': 2, 
-					'armor': [
-						None, None, None
-						], 
-					'max_armor': 3, 
-					'ammo': [
-						None, None, None, None
-						], 
-					'max_ammo': 4, 
-					'passive': [
-						None, None
-						], 
-					'max_passive': 2
-					}
-			},
-			"cur_floor": 0,
-			"state": "moving"
-		},
+			        "numFloors": 1,
+			        "floors": [
+			        {
+			          "floorNum": 0,
+			          "entry": [
+			            1,
+			            0
+			          ],
+			          "rooms": [
+			            [
+			              None,
+			              {
+			                "typ": 1,
+			                "enemies": 2,
+			                "chest": None
+			              }
+			            ],
+			            [
+			              {
+			                "typ": 2,
+			                "enemies": 0,
+			                "chest": None
+			              },
+			              {
+			                "typ": 3,
+			                "enemies": 0,
+			                "chest": "unopened"
+			              }
+			            ]
+			          ]
+			        }
+			      ]
+			    },
+			    "player": {
+			      "row": 1,
+			      "col": 0,
+			      "orient": "right",
+			      "inventory": {
+			        "weapons": [
+			          {
+			            "name": "Starter Sword",
+			            "stack_limit": 1
+			          },
+			          {
+			            "name": "Starter Sword",
+			            "stack_limit": 1
+			          }
+			        ],
+			        "max_weapons": 2,
+			        "spells": [],
+			        "max_spells": 2,
+			        "armor": [],
+			        "max_armor": 3,
+			        "ammo": [],
+			        "max_ammo": 4,
+			        "passive": [],
+			        "max_passive": 2
+			      }
+			    },
+			    "state": "moving",
+			    "cur_floor": 0
+    },
 		"user": {
 			"userId": "amzn1.ask.account.AGLRQPFNFQGID2KZ7OX4MELKJ4ICPZWTKHOGO6AU3ISUYIU6WVFDESDRQCY55VDA4ZHU75PE7CUYTPSDWWB7YY67IOBRNKOMWZHRF4SP6UFUAPJOWTDAN6F7H5YILSSLBX5TWLN4HJR5L47I7ZHG6ZQYV2MDIVEIXJ7RAF6ZG66KCDNO7SLROADZMTMNJO7YHCG5PUYDNYGJCHQ"
 		}
@@ -114,7 +112,7 @@ event = {
 		}
 	},
 	"request": {
-		"type": "ViewInventory",
+		"type": "IntentRequest",
 		"requestId": "amzn1.echo-api.request.abc3c835-09d9-4a3c-8a7c-712100d6194a",
 		"timestamp": "2019-02-22T04:17:52Z",
 		"locale": "en-US",
@@ -151,41 +149,3 @@ event = {
 	}
 }
 print(lambda_handler(event, "hello"))
-
-
-
-dungeon = Dungeon(numFloors=5)
-
-#print("\n")
-
-# testing serialization
-#print("SERIALIZE")
-#serialized = dungeon.serialize()
-#print(serialized)
-#print(serialized["numFloors"])
-
-#print("\n")
-
-# testing deserialization
-#print("DESERIALIZE")
-#dungeon2 = Dungeon(serialized=serialized)
-#print(dungeon2.floors[0].rooms)
-#print(dungeon2.numFloors)
-#print(dungeon2.serialize())
-
-#print("\n")
-
-# testing constants
-#print("CONSTANTS")
-#print(constants.floors)
-
-# testing room generation
-#print("ROOM GENERATION")
-#print(dungeon.serialize())
-#print(dungeon.floors[0])
-#print(dungeon.floors[0].entry)
-
-# testing player
-#player = Player(dungeon.floors[0].entry[0], dungeon.floors[0].entry[1])
-#player2 = Player(serialized=player.serialize())
-#print(player2.serialize())

@@ -1,6 +1,7 @@
 # dungeon.py - contains room and dungeon classes
 import constants
 import random
+from container import *
 
 
 class Dungeon(object):
@@ -88,7 +89,8 @@ class Floor(object):
 					if rand <= room["chanceExists"]:
 						curRoom = Room(
 									typ=room["type"],
-									enemies=room["enemyWeight"])
+									enemies=room["enemyWeight"],
+									floor=floorNum)
 						line.append(curRoom)
 
 					else:
@@ -165,10 +167,15 @@ class Room(object):
 	def __init__(self,
 				 serialized=None,
 				 typ=None,
+				 chest=None,
 				 enemies=None,
+				 floor=0
 				 ):
 		self.typ = typ
 		self.enemies = enemies  # change this later
+		self.chest = chest
+		if self.typ == 3:
+			self.chest = Chest(floor=floor)
 
 		# deserialized serialized object
 		if serialized is not None:
@@ -187,6 +194,10 @@ class Room(object):
 		serialized = {}
 		serialized["typ"] = self.typ
 		serialized["enemies"] = self.enemies  # this will have to change
+		if self.chest is not None:
+			serialized["chest"] = self.chest.serialize()
+		else:
+			serialized["chest"] = None
 
 		return serialized
 	
@@ -194,3 +205,8 @@ class Room(object):
 	def deserialize(self, serialized):
 		self.typ = serialized["typ"]
 		self.enemies = serialized["enemies"]  # this will have to change later
+		# serializes chest if necessary
+		if serialized["chest"] is not None:
+			self.chest = Chest(serialized=serialized["chest"])
+		else:
+			self.chest = None

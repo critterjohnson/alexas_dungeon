@@ -6,7 +6,7 @@ class Player(object):
 				 row=0, 
 				 col=0, 
 				 orient="right",
-				 inventory=Inventory(),
+				 inventory=None,
 				 serialized=None):
 		self.row = row
 		self.col = col
@@ -17,10 +17,11 @@ class Player(object):
 			self.deserialize(serialized)
 
 		else:
+			self.inventory = Inventory()
 			# TODO - replace this with a constant value
 			self.inventory.weapons.append(
-				Item(name="Starter Sword",
-					 stack_limit=1))
+				Weapon(name="Starter Sword",
+					   stack_limit=1))
 
 
 	def serialize(self):

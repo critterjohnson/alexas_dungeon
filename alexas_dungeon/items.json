@@ -1,0 +1,22 @@
+{
+	"0": {
+		"common": {
+			"Elven Sword": {
+				"type": "Weapon",
+				"stack_limit": 1
+			}
+		},
+		"uncommon": {
+			"Water Bolt": {
+				"type": "Spell",
+				"stack_limit": 1
+			}
+		},
+		"rare": {
+			"Longbow": {
+				"type": "Weapon",
+				"stack_limit": 1
+			}
+		}
+	}
+}

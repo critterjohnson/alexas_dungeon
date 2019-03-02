@@ -103,6 +103,27 @@ class Game(object):
 			return "No room in that location."
 
 
+	def open_chest(self):
+		floor = self.dungeon.floors[self.cur_floor]
+		room = floor.rooms[self.player.row][self.player.col]
+		chest = room.chest
+		text = ""
+		if chest is None:
+			return "There is no chest here."
+		elif room.chest.item is None:
+			return "The chest here has already been looted."
+		else:
+			text += "You found a " + chest.item.name
+			if self.player.inventory.add(chest.item):
+				chest.item = None
+				text += " and added it to your inventory."
+				return text 
+			else:
+				text += " but your inventory is full."
+				return text
+		return "Opened chest."
+
+
 	def serialize(self):
 		serialized = {
 			"dungeon": self.dungeon.serialize(),
