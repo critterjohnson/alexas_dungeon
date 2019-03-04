@@ -56,6 +56,61 @@ class Inventory(object):
 				self.passive.append(item)
 
 
+	def drop_item(self, item_type=None, slot=None, item=None):
+		# if the slot is passed and not the item
+		if item is None:
+			# gets the proper item type list
+			if item_type == "weapon":
+				item_list = self.weapons
+			elif item_type == "spell":
+				item_list = self.spells
+			elif item_type == "armor":
+				item_list = self.armor
+			elif item_type == "ammo":
+				item_list = self.ammo
+			elif item_type == "passive":
+				item_list = self.passive
+			# checks to make sure there is an item in the slot
+			if not slot >= len(item_list) - 1:
+				return "There is no item in that slot."
+			# deletes the item
+			item = item_list[slot]
+			del item_list[slot]
+			return "Dropped %s" % item.name
+		# if the item is passed and not the slot
+		else:
+			found = False
+			for i in range(len(self.weapons)):
+				if self.weapons[i].name.lower() == item:
+					del self.weapons[i]
+					found = True
+					break
+			for i in range(len(self.spells)):
+				if self.spells[i].name.lower() == item:
+					del self.spells[i]
+					found = True
+					break
+			for i in range(len(self.armor)):
+				if self.armor[i].name.lower() == item:
+					del self.armor[i]
+					found = True
+					break
+			for i in range(len(self.ammo)):
+				if self.ammo[i].name.lower() == item:
+					del self.ammo[i]
+					found = True
+					break
+			for i in range(len(self.passive)):
+				if self.passive[i].name.lower() == item:
+					del self.passive[i]
+					found = True
+					break
+			if found:
+				return "Dropped %s" % item
+			else:
+				return "You do not have %s" % item
+
+
 	def serialize(self):
 		serialized = {
 			"weapons": [],

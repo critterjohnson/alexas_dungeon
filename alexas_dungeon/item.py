@@ -127,6 +127,8 @@ def gen_item(floor):
 	# gets the list of items from the JSON file
 	with open("items.json") as file:
 		item_list = json.load(file)[str(floor)]
+
+	# gets the item with the proper rarity
 	rarity_list = item_list[rarity]
 	item_name = random.choice(list(rarity_list))
 	item_data = rarity_list[item_name]
