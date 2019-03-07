@@ -77,6 +77,7 @@ class Inventory(object):
 			item = item_list[slot]
 			del item_list[slot]
 			return "Dropped %s" % item.name
+			
 		# if the item is passed and not the slot
 		else:
 			found = False

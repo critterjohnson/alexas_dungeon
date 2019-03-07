@@ -1,6 +1,7 @@
 # manager.py - methods to handle requests and responses
 from alexatools import *
 from game import *
+import constants
 
 
 def lambda_handler(event, context):
@@ -47,6 +48,7 @@ def lambda_handler(event, context):
 		response.session_attributes = game.serialize()
 		response.should_end_session = False
 		return response
+
 
 	# --- Inventory Management ---
 	@at.handler("ViewInventory")
@@ -98,7 +100,7 @@ def lambda_handler(event, context):
 		return response
 
 
-	# --- Misc --
+	# --- Misc ---
 	@at.handler("OpenChest")
 	def open_chest(request):
 		response = AlexaResponse()
